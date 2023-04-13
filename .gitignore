@@ -54,6 +54,9 @@ venv
 # make file markers
 .install*
 
+# ignore out directories
+out/
+
 # ignore binary data in general
 *.tif
 *.nc
