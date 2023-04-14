@@ -5,7 +5,7 @@ from pathlib import Path
 import xarray as xr
 from equi7grid.equi7grid import Equi7Tile, Equi7Grid
 
-from cscale_gpet_workshop.resample_pipeline import resample_lonlat_to_equi7
+from cscale_gpet_workshop.cpu.resample import resample_lonlat_to_equi7
 
 
 def main():

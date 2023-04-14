@@ -8,7 +8,7 @@ from eotransform_pandas.filesystem.naming.geopathfinder_conventions import yeoda
 from pandas import DataFrame
 from xarray import DataArray
 
-from cscale_gpet_workshop.mmean_pipeline import monthly_mean
+from cscale_gpet_workshop.cpu.mmean import monthly_mean
 
 
 def main():

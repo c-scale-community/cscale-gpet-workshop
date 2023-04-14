@@ -3,7 +3,7 @@ import xarray as xr
 from eotransform_pandas.filesystem.gather import gather_files
 from eotransform_pandas.filesystem.naming.geopathfinder_conventions import yeoda_naming_convention
 
-from cscale_gpet_workshop.mmean_pipeline import monthly_mean
+from cscale_gpet_workshop.cpu.mmean import monthly_mean
 
 
 @pytest.fixture

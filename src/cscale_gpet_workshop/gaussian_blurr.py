@@ -4,7 +4,7 @@ from pathlib import Path
 
 import rioxarray
 
-from cscale_gpet_workshop.gaussian_blurr_pipeline import gauss_blur
+from cscale_gpet_workshop.cpu.gaussian_blurr import gauss_blur
 
 
 def main():

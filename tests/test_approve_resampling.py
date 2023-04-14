@@ -4,7 +4,7 @@ from eotransform_pandas.filesystem.gather import gather_files
 from eotransform_pandas.filesystem.naming.geopathfinder_conventions import yeoda_naming_convention
 from equi7grid.equi7grid import Equi7Grid
 
-from cscale_gpet_workshop.resample_pipeline import resample_lonlat_to_equi7
+from cscale_gpet_workshop.cpu.resample import resample_lonlat_to_equi7
 
 
 @pytest.fixture
