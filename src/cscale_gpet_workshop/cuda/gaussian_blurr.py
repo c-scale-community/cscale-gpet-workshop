@@ -23,11 +23,8 @@ def convolve2d_cuda_naive(a, kernel, out):
         for j in range(-kr_y, kr_y + 1):
             xx = x + i
             yy = y + j
-            if xx >= 0 and x < size_x and yy >= 0 and yy < size_y:
-                active_pixel = a[xx, yy]
-            else:
-                active_pixel = 0
-            kernel_sum += active_pixel * kernel[kr_x + i, kr_y + j]
+            if 0 <= xx < size_x and 0 <= yy < size_y:
+                kernel_sum += a[xx, yy] * kernel[kr_x + i, kr_y + j]
     out[x, y] = kernel_sum
 
 
