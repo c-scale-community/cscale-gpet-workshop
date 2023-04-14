@@ -1,8 +1,16 @@
-.PHONY: help clean setup test
+.ONESHELL:
+SHELL = /bin/bash
+
+.PHONY: help clean environment install test version dist
+
+CONDA_ENV_DIR = $(shell conda info --base)/envs/cscale-gpet-workshop
+CONDA_ACTIVATE = source $$(conda info --base)/etc/profile.d/conda.sh ; conda activate ; conda activate
 
 help:
 	@echo "make clean"
 	@echo " clean all python build/compilation files and directories"
+	@echo "make environment"
+	@echo " create a conda environment named csale-gpet-workshop with some conda-forge / nvidia dependencies installed"
 	@echo "make install"
 	@echo " install dependencies in active python environment"
 	@echo "make test"
@@ -23,6 +31,16 @@ clean:
 	rm --force --recursive *.egg-info
 	rm --force .install.done
 	rm --force .install.test.done
+
+$(CONDA_ENV_DIR):
+	@echo "creating new base csale-gpet-workshop conda environment..."
+	conda create -y -c conda-forge -n csale-gpet-workshop python=3.10 pip mamba
+	$(CONDA_ACTIVATE) csale-gpet-workshop
+	mamba install -y -c conda-forge gdal xarray numpy rioxarray dask numba cudatoolkit
+	@echo "... finished."
+
+environment: $(CONDA_ENV_DIR)
+	@echo -e "conda environment is ready. To activate use:\n\tconda activate csale-gpet-workshop"
 
 install:
 	pip install --upgrade pip setuptools

@@ -16,8 +16,8 @@ def main():
     args = parser.parse_args()
     logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
 
-    gauss_blur(rioxarray.open_rasterio(args.in_tif), args.kernel_size, args.sigma).rio.to_raster(args.out_tif,
-                                                                                                 compress='ZSTD')
+    gauss_blur(rioxarray.open_rasterio(args.in_tif, mask_and_scale=True), args.kernel_size, args.sigma)\
+        .rio.to_raster(args.out_tif, compress='ZSTD')
 
 
 if __name__ == "__main__":

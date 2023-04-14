@@ -8,7 +8,8 @@ from cscale_gpet_workshop.cpu.gaussian_blurr import gauss_blur
 @pytest.fixture
 def high_freq_raster(approval_geo_input_directory):
     return rioxarray.open_rasterio(
-        approval_geo_input_directory / "SIG0-MMEAN_20180101T050937_20180131T170558_VV_MMEAN_E048N012T6_EU500M_V1M0R1_S1AIWGRDH-S1BIWGRDH_TUWIEN.tif")
+        approval_geo_input_directory / "SIG0-MMEAN_20180101T050937_20180131T170558_VV_MMEAN_E048N012T6_EU500M_V1M0R1_S1AIWGRDH-S1BIWGRDH_TUWIEN.tif",
+        mask_and_scale=True)
 
 
 def test_approve_gaussian_blurr(high_freq_raster, verify_raster_as_geo_tif):
