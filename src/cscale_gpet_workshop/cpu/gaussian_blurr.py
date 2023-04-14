@@ -8,7 +8,7 @@ from xarray import DataArray
 
 def gauss_blur(raster: DataArray, kernel_size: int, sigma: float) -> DataArray:
     kernel = make_gauss_kernel(kernel_size, sigma)
-    da = DataArray(convolve2d(raster.values[0], kernel, mode='same', boundary='symm')[np.newaxis, ...],
+    da = DataArray(convolve2d(raster.values[0], kernel, mode='same', boundary='fill', fillvalue=0)[np.newaxis, ...],
                       coords=raster.coords, dims=raster.dims, attrs=raster.attrs, name=raster.name)
     maybe_del(da.attrs, 'dtype')
     maybe_del(da.attrs, '_FillValue')

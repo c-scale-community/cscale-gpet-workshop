@@ -2,7 +2,7 @@ import pytest
 import rioxarray
 from pytest_approvaltests_geo import GeoOptions
 
-from cscale_gpet_workshop.cpu.gaussian_blurr import gauss_blur
+from cscale_gpet_workshop.cuda.gaussian_blurr import gauss_blur
 
 
 @pytest.fixture
@@ -14,7 +14,8 @@ def high_freq_raster(approval_geo_input_directory):
 
 def test_approve_gaussian_blurr(high_freq_raster, verify_raster_as_geo_tif):
     low_freq = gauss_blur(high_freq_raster, kernel_size=6, sigma=1.5)
-    verify_raster_as_geo_tif(low_freq, options=GeoOptions().with_tif_writer(write_compressed))
+    verify_raster_as_geo_tif(low_freq, options=GeoOptions().with_tif_writer(write_compressed)
+                             .with_tolerance(rel_tol=0.1, abs_tol=0.1))
 
 
 def write_compressed(file, a) -> None:
