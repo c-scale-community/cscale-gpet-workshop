@@ -11,8 +11,9 @@ class MeanStreamIter(StreamIn[NDArray]):
     def send(self, new_obs: NDArray):
         is_nan = np.isnan(new_obs)
         self.n += (~is_nan).astype(np.uint32)
+        new_obs = 10.0 ** (new_obs * 0.1)
         new_obs[is_nan] = 0
         self.running_sum += new_obs
 
     def close(self) -> NDArray:
-        return self.running_sum / self.n
+        return 10 * np.log10(self.running_sum / self.n)
