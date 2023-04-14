@@ -1,11 +1,9 @@
 from concurrent.futures import ThreadPoolExecutor
 
 from dask.array import array
-from eotransform.protocol.transformer import Transformer
 from eotransform.transformers.send_to_stream import SendToStream
 from eotransform.sinks.sink_to_progress_report import SinkToProgressReport
 from eotransform.streamed_process import streamed_process
-from eotransform_xarray.transformers.send_to_stream import StreamIn
 from numpy.typing import NDArray
 from tqdm import tqdm
 from xarray import Dataset

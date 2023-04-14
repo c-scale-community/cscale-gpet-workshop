@@ -1,9 +1,9 @@
 import numpy as np
-from eotransform_xarray.transformers.send_to_stream import StreamIn
-from numpy._typing import NDArray
+from eotransform.protocol.stream import StreamIn
+from numpy.typing import NDArray
 
 
-class MeanStreamIter(StreamIn):
+class MeanStreamIter(StreamIn[NDArray]):
     def __init__(self, shape):
         self.n = np.zeros(shape, dtype=np.uint32)
         self.running_sum = np.zeros(shape, dtype=np.float32)
