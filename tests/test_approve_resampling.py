@@ -1,6 +1,5 @@
 import pytest
 import xarray as xr
-
 from eotransform_pandas.filesystem.gather import gather_files
 from eotransform_pandas.filesystem.naming.geopathfinder_conventions import yeoda_naming_convention
 from equi7grid.equi7grid import Equi7Grid
@@ -11,13 +10,6 @@ from cscale_gpet_workshop.resample_pipeline import resample_lonlat_to_equi7
 @pytest.fixture
 def era5l_stl1(approval_geo_input_directory):
     return xr.open_dataset(approval_geo_input_directory / "stl1_era5land_20211111.nc")
-
-
-@pytest.fixture
-def out_put(tmp_path):
-    o = tmp_path / "out"
-    o.mkdir(exist_ok=True)
-    return o
 
 
 def test_approve_resampled_era5_land_data(era5l_stl1, verify_data_frame_using, verify_geo_tif, out_put):
