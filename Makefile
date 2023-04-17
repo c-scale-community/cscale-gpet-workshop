@@ -10,7 +10,7 @@ help:
 	@echo "make clean"
 	@echo " clean all python build/compilation files and directories"
 	@echo "make environment"
-	@echo " create a conda environment named csale-gpet-workshop with some conda-forge / nvidia dependencies installed"
+	@echo " create a conda environment named cscale-gpet-workshop with some conda-forge / nvidia dependencies installed"
 	@echo "make install"
 	@echo " install dependencies in active python environment"
 	@echo "make test"
@@ -33,14 +33,14 @@ clean:
 	rm --force .install.test.done
 
 $(CONDA_ENV_DIR):
-	@echo "creating new base csale-gpet-workshop conda environment..."
-	conda create -y -c conda-forge -n csale-gpet-workshop python=3.10 pip mamba
-	$(CONDA_ACTIVATE) csale-gpet-workshop
-	mamba install -y -c conda-forge gdal xarray numpy rioxarray dask numba cudatoolkit
+	@echo "creating new base cscale-gpet-workshop conda environment..."
+	conda create -y -c conda-forge -c nvidia -n cscale-gpet-workshop python=3.10 pip mamba
+	$(CONDA_ACTIVATE) cscale-gpet-workshop
+	mamba install -y -c conda-forge -c nvidia gdal xarray numpy rioxarray dask numba cudatoolkit
 	@echo "... finished."
 
 environment: $(CONDA_ENV_DIR)
-	@echo -e "conda environment is ready. To activate use:\n\tconda activate csale-gpet-workshop"
+	@echo -e "conda environment is ready. To activate use:\n\tconda activate cscale-gpet-workshop"
 
 install:
 	pip install --upgrade pip setuptools
