@@ -3,8 +3,9 @@ import logging
 from pathlib import Path
 
 import rioxarray
+from eotransform.utilities.profiling import PerformanceClock
 
-from cscale_gpet_workshop.cuda.gaussian_blurr import gauss_blur
+from cscale_gpet_workshop.cpu.gaussian_blurr import gauss_blur
 
 
 def main():
@@ -16,8 +17,15 @@ def main():
     args = parser.parse_args()
     logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
 
-    gauss_blur(rioxarray.open_rasterio(args.in_tif, mask_and_scale=True), args.kernel_size, args.sigma)\
-        .rio.to_raster(args.out_tif, compress='ZSTD')
+    clock = PerformanceClock()
+
+    raster = rioxarray.open_rasterio(args.in_tif, mask_and_scale=True).load()
+
+    with clock.measure():
+        raster = gauss_blur(raster, args.kernel_size, args.sigma)
+
+    logging.info(f"blurring took: {clock.total_measures}s")
+    raster.rio.to_raster(args.out_tif, compress='ZSTD')
 
 
 if __name__ == "__main__":
