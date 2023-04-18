@@ -6,12 +6,13 @@ from numba import cuda
 from numpy.typing import NDArray
 from xarray import DataArray
 
-THREADS_PER_BLOCK = 16
+THREADS_PER_BLOCK = (16, 16)
 
 
 @cuda.jit
 def convolve2d_cuda_naive(a, kernel, out):
-    x, y = cuda.grid(2)
+    x = cuda.blockIdx.x * cuda.blockDim.x + cuda.threadIdx.x
+    y = cuda.blockIdx.y * cuda.blockDim.y + cuda.threadIdx.y
     size_x = a.shape[0]
     size_y = a.shape[1]
 
@@ -31,15 +32,15 @@ def convolve2d_cuda_naive(a, kernel, out):
 def convolve2d(a: NDArray, kernel: NDArray):
     block_per_grid = calc_cuda_blocks_per_grid2d(a.shape, THREADS_PER_BLOCK)
     out_device = cuda.device_array(a.shape, a.dtype)
-    convolve2d_cuda_naive[block_per_grid, (THREADS_PER_BLOCK, THREADS_PER_BLOCK)](cuda.to_device(a),
-                                                                                  cuda.to_device(kernel),
-                                                                                  out_device)
+    convolve2d_cuda_naive[block_per_grid, THREADS_PER_BLOCK](cuda.to_device(a),
+                                                             cuda.to_device(kernel),
+                                                             out_device)
     return out_device.copy_to_host()
 
 
 def calc_cuda_blocks_per_grid2d(shape, threads_per_block):
-    blocks_per_grid_x = math.ceil(shape[0] / threads_per_block)
-    blocks_per_grid_y = math.ceil(shape[1] / threads_per_block)
+    blocks_per_grid_x = math.ceil(shape[0] / threads_per_block[0])
+    blocks_per_grid_y = math.ceil(shape[1] / threads_per_block[1])
     return blocks_per_grid_x, blocks_per_grid_y
 
 
