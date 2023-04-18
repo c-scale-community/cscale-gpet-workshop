@@ -4,6 +4,6 @@ project_dir=$(realpath "$(dirname $(dirname "${BASH_SOURCE[0]}"))")
 pushd "$project_dir" || exit
 
 mkdir -p out
-py-spy resources/SIG0-MMEAN_20180101T050937_20180131T170558_VV_MMEAN_E048N012T3_EU020M_V1M0R1_S1AIWGRDH-S1BIWGRDH_TUWIEN.tif out/blurred.tif --kernel-size 25 --sigma 7
+py-spy record --format speedscope -o profile-gauss-blur-cpu.json -- python src/cscale_gpet_workshop/gaussian_blur.py resources/SIG0-MMEAN_20180101T050937_20180131T170558_VV_MMEAN_E048N012T3_EU020M_V1M0R1_S1AIWGRDH-S1BIWGRDH_TUWIEN.tif out/blurred.tif --kernel-size 25 --sigma 7
 
 popd || exit

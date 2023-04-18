@@ -2,7 +2,7 @@ import pytest
 import rioxarray
 from pytest_approvaltests_geo import GeoOptions
 
-from cscale_gpet_workshop.cuda.gaussian_blur import gauss_blur
+from cscale_gpet_workshop.cpu.gaussian_blur import gauss_blur
 
 
 @pytest.fixture
