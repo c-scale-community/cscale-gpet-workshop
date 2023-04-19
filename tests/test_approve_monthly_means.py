@@ -1,9 +1,10 @@
 import pytest
 import xarray as xr
+from eotransform.utilities.profiling import PerformanceClock
 from eotransform_pandas.filesystem.gather import gather_files
 from eotransform_pandas.filesystem.naming.geopathfinder_conventions import yeoda_naming_convention
 
-from cscale_gpet_workshop.cpu.mmean import monthly_mean
+from cscale_gpet_workshop.cuda.mmean import monthly_mean
 
 
 @pytest.fixture
@@ -15,5 +16,9 @@ def src_data_cube(approval_geo_input_directory):
 
 
 def test_approve_calculating_monthly_means(src_data_cube, out_put, verify_geo_tif):
-    monthly_mean(src_data_cube, out_put)
+    clock = PerformanceClock()
+
+    with clock.measure():
+        monthly_mean(src_data_cube, out_put)
+    print(f"\nmonthly mean took: {clock.total_measures}s")
     verify_geo_tif(next(out_put.glob("*.tif")))
