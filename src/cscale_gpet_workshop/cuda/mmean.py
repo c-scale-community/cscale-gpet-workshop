@@ -27,7 +27,7 @@ def streamed_mean(da: array, axis: int):
 
 def source_dask_chunks_and_move_to_cuda(da: array) -> Any:
     for i in range(da.shape[0]):
-        yield cuda.to_device(da[i].compute())
+        yield da[i].compute()
 
 
 def monthly_mean(src_data_cube: DataArray, out_put: Path) -> None:
